@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# vscode
+.vscode/
+
+# batch files for compiling and running
+# using the bcc
+batch/
