@@ -63,7 +63,7 @@ int test1(int argc, char *argv[]) {
 
 int userMain(int argc, char *argv[]) {
 	RUN_TEST(_output_sizeof);
-	//RUN_TEST(0);
-	//RUN_TEST(1);
+	RUN_TEST(0);
+	RUN_TEST(1);
 	return 0;
 }
