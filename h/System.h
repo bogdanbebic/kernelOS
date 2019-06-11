@@ -14,6 +14,12 @@ class PCB;
 System::lock_flag = 1;\
 if (System::context_switch_requested) dispatch()
 
+#define lock() System::lock_flag = 0
+
+#define unlock() \
+System::lock_flag = 1;\
+if (System::context_switch_requested) dispatch()
+
 typedef void interrupt (*pInterrupt)(...);
 
 void interrupt timer(...);

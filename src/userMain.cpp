@@ -206,7 +206,7 @@ void two_threads_test() {
 			cout<<"u main() i = "<<j<<endl;
 			unlock;
 
-		for (int k = 0; k < 10000; ++k) 
+		for (int k = 0; k < 10000; ++k)
 			for (int l = 0; l < 30000; ++l);
 
 	}
@@ -246,7 +246,7 @@ int test_waiting_main(int argc, char *argv[]) {
 			thread_a.waitToComplete();
 		}
 
-		for (int k = 0; k < 10000; ++k) 
+		for (int k = 0; k < 10000; ++k)
 			for (int l = 0; l < 30000; ++l);
 
 	}
@@ -267,7 +267,7 @@ int test_waiting_threads(int argc, char *argv[]) {
 		lock;
 		cout<<"u main() i = "<<j<<endl;
 		unlock;
-		for (int k = 0; k < 10000; ++k) 
+		for (int k = 0; k < 10000; ++k)
 			for (int l = 0; l < 30000; ++l);
 
 	}
@@ -288,7 +288,7 @@ int test_unbounded_thread(int argc, char *argv[]) {
 		lock;
 		cout<<"u main() i = "<<j<<endl;
 		unlock;
-		for (int k = 0; k < 10000; ++k) 
+		for (int k = 0; k < 10000; ++k)
 			for (int l = 0; l < 30000; ++l);
 
 	}
@@ -327,5 +327,3 @@ int userMain(int argc, char *argv[]) {
 	RUN_TEST(_marta);
 	return 0;
 }
-
-

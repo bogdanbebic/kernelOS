@@ -35,9 +35,9 @@ void interrupt timer(...) {
 	if (!System::context_switch_requested) {
 		tick();
 		System::ticks_since_boot++;
-		System::running_pcb_time_slice--;	// TODO: time_slice == 0 => unbounded execution	
+		System::running_pcb_time_slice--;	// TODO: time_slice == 0 => unbounded execution
 	}
-	
+
 	if (System::context_switch_requested || System::running_pcb_time_slice == 0 && !System::running_pcb->is_unbounded_) {
 		if (System::lock_flag) {
 			System::context_switch_requested = false;
