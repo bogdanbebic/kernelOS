@@ -38,7 +38,7 @@ void interrupt timer(...) {
 		System::running_pcb_time_slice--;	// TODO: time_slice == 0 => unbounded execution	
 	}
 	
-	if (System::context_switch_requested || System::running_pcb_time_slice == 0) {
+	if (System::context_switch_requested || System::running_pcb_time_slice == 0 && !System::running_pcb->is_unbounded_) {
 		if (System::lock_flag) {
 			System::context_switch_requested = false;
 			System::running_pcb->stack_offset_ = _SP;

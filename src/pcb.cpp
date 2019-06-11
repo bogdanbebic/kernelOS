@@ -11,6 +11,7 @@ PCB::PCB(StackSize stack_size, Time time_slice, Thread *my_thread)
     , stack_size_(stack_size)
     , state_(NEW)
     , time_slice_(time_slice)
+    , is_unbounded_(time_slice == 0)
 {
     this->stack_ = new Word[this->stack_size_];
     this->stack_[this->stack_size_ - 1] = 0x200; // I bit in psw set

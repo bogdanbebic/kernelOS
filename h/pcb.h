@@ -38,6 +38,7 @@ private:
     StackSize stack_size_;
     State state_;
     Time time_slice_;
+    bool is_unbounded_;
     Word *stack_;
     Word stack_segment_;
     Word stack_offset_;

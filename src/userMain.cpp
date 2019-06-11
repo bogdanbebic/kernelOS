@@ -275,6 +275,27 @@ int test_waiting_threads(int argc, char *argv[]) {
 	return 0;
 }
 
+int test_unbounded_thread(int argc, char *argv[]) {
+	cout << "argc: " << argc << "\nargv:\n";
+	for (auto i = 0; i < argc; i++) {
+		cout << argv[i] << "\n";
+	}
+
+	ThreadA a(0);
+	a.start();
+
+	for (int j = 0; j < 10; j++) {
+		lock;
+		cout<<"u main() i = "<<j<<endl;
+		unlock;
+		for (int k = 0; k < 10000; ++k) 
+			for (int l = 0; l < 30000; ++l);
+
+	}
+
+	return 0;
+}
+
 #define str(x) #x
 
 #define RUN_TEST(test_no) \
@@ -299,6 +320,7 @@ int userMain(int argc, char *argv[]) {
 	lock;
 	cout << "Threads tests\n";
 	unlock;
+	RUN_TEST(_unbounded_thread);
 	RUN_TEST(_two_threads);
 	RUN_TEST(_waiting_main);
 	RUN_TEST(_waiting_threads);
