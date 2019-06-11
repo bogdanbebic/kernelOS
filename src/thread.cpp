@@ -8,10 +8,11 @@ void Thread::start() {
 }
 
 void Thread::waitToComplete() {
-    // TODO: implement
+    this->myPCB->waitToComplete();
 }
 
 Thread::~Thread() {
+    this->waitToComplete();
     delete this->myPCB;
 }
 
@@ -24,7 +25,18 @@ ID Thread::getRunningId() {
 }
 
 Thread *Thread::getThreadById(ID id) {
-    return nullptr; // TODO: implement
+    Thread *ret = nullptr;
+    lock;
+    for (ForwardList<PCB*>::Iterator it = System::all_pcbs.begin(); it != System::all_pcbs.end(); ++it) {
+        if (id == (*it)->id()) {
+            ret = (*it)->my_thread_;
+            break;
+        }
+
+    }
+
+    unlock;
+    return ret;
 }
 
 Thread::Thread(StackSize stackSize, Time timeSlice) {

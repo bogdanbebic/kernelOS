@@ -1,5 +1,5 @@
-#ifndef _BCCONSTS_H_
-#define _BCCONSTS_H_
+#ifndef _BCC_CONSTS_H_
+#define _BCC_CONSTS_H_
 
 #ifndef BCC_BLOCK_IGNORE
 

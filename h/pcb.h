@@ -3,6 +3,9 @@
 
 #include "thread.h"
 #include "bcconsts.h"
+#include "System.h"
+
+#include "list.h"
 
 class PCB {
 public:
@@ -14,6 +17,8 @@ public:
 
     void start();
 
+    void waitToComplete();
+
     ID id() const;
 
     static void wrapper();
@@ -22,22 +27,23 @@ protected:
 
 private:
     friend void interrupt timer(...);
+    friend void System::initialize();
+    friend Thread *Thread::getThreadById(ID id);
 
-    static long long next_id;
+    static ID next_id;
     
     Thread *my_thread_;
 
-    long long id_;
+    ID id_;
     StackSize stack_size_;
     State state_;
     Time time_slice_;
     Word *stack_;
     Word stack_segment_;
     Word stack_offset_;
-    Word stack_pointer_;
     Word base_pointer_;
 
-    // Vector<PCB*> waiting_on_this;
+    ForwardList<PCB*> waiting_on_this_;
 
 };
 
