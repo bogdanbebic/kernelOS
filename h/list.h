@@ -22,7 +22,12 @@ public:
 	public:
 		Iterator(ForwardListNode *elem) : elem_(elem) {}
 
-		const T & operator * () {
+		// OVO JE DODATO
+		T & operator * () {
+			return this->elem_->data;
+		}
+
+		const T & operator * () const {
 			return this->elem_->data;
 		}
 
@@ -73,11 +78,23 @@ public:
 	// Iterators	
 
 	Iterator begin() {
-		return Iterator(this->head_);
+		return this->size_ != 0 ? Iterator(this->head_) : Iterator(0);
 	}
 
 	Iterator end() {
-		return this->tail_ != 0 ? Iterator(this->tail_->next) : Iterator(0);
+		return this->size_ != 0 ? Iterator(this->tail_->next) : Iterator(0);
+	}
+
+	// OVO JE DODATO
+	Iterator find(const T &value) {
+		for (Iterator it = this->begin(); it != this->end(); ++it) {
+			if (*it == value) {
+				return it;
+			}
+
+		}
+
+		return this->end();
 	}
 
 	// Capacity
@@ -94,6 +111,24 @@ public:
 
 	void clear();
 
+	void remove(const T &value);
+
+	Iterator insert_after(Iterator position, const T &value) {
+		if (position == this->end()) {
+			return this->end();
+		}
+
+		this->size_++;
+		ForwardListNode *new_node = new ForwardListNode(value);
+		new_node->next = position.elem_->next;
+		position.elem_->next = new_node;
+		if (position.elem_ == this->tail_) {
+			this->tail_ = new_node;
+		}
+
+		return Iterator(new_node);
+	}
+
 	Iterator erase_after(Iterator position) {
 		if (position == this->end()) { return this->end(); }
 
@@ -101,6 +136,7 @@ public:
 		if (old != 0) {
 			position.elem_->next = old->next;
 			delete old;
+			this->size_--;
 		}
 
 		return Iterator(position.elem_->next);
@@ -140,11 +176,38 @@ public:
 		this->size_++;
 	}
 
-private:
-	ForwardListNode *head_, *tail_;
+	// OVO JE DODATO
+	void swap(const T &value1, const T &value2) {
+		Iterator it1 = this->find(value1), it2 = this->find(value2);
+		if (it1 != this->end() && it2 != this->end()) {
+			T temp = *it1;
+			*it1 = *it2;
+			*it2 = temp;
+		}
+
+	}
+
+protected:
 	size_type size_;
 
+private:
+	ForwardListNode *head_, *tail_;
+
 };
+
+/*
+// OVO JE DODATO
+template<class T>
+typename ForwardList<T>::Iterator ForwardList<T>::find(const T &value) {
+	for (Iterator it = this->begin(); it != this->end(); ++it) {
+		if (*it == value) {
+			return it;
+		}
+
+	}
+
+	return this->end();
+}*/
 
 template<class T>
 void ForwardList<T>::clear() {
@@ -157,6 +220,32 @@ void ForwardList<T>::clear() {
 	}
 
 	this->head_ = this->tail_ = 0;
+}
+
+template<class T>
+void ForwardList<T>::remove(const T &value) {
+	Iterator it = this->begin();
+	while (it != this->end() && *it == value) {
+		this->pop_front();
+		it = this->begin();
+	} 
+
+    if (this->size() == 0) {
+        return;
+    }
+
+    Iterator next = ++this->begin();
+	while (next != this->end()) {
+		if (*next == value) {
+			next = this->erase_after(it);
+		}
+		else {
+			++it;
+			++next;
+		}
+		
+	}
+
 }
 
 #endif // ! _LIST_H_

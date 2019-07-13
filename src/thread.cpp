@@ -13,7 +13,8 @@ void Thread::waitToComplete() {
 
 Thread::~Thread() {
     this->waitToComplete();
-    delete this->myPCB;
+    // delete this->myPCB;
+    // this->myPCB = 0;
 }
 
 ID Thread::getId() {
@@ -53,3 +54,55 @@ void dispatch() {
     asm sti;
 #endif
 }
+
+#ifdef THREAD_SIGNALS
+
+void Thread::signal(SignalId signal) {
+    lock;
+    this->myPCB->signal(signal);
+    unlock;
+}
+
+void Thread::registerHandler(SignalId signal, SignalHandler handler) {
+    lock;
+    this->myPCB->registerHandler(signal, handler);
+    unlock;
+}
+
+void Thread::unregisterAllHandlers(SignalId id) {
+    lock;
+    this->myPCB->unregisterAllHandlers(id);
+    unlock;
+}
+
+void Thread::swap(SignalId id, SignalHandler hand1, SignalHandler hand2) {
+    lock;
+    this->myPCB->swap(id, hand1, hand2);
+    unlock;
+}
+    
+void Thread::blockSignal(SignalId signal) {
+    lock;
+    this->myPCB->blockSignal(signal);
+    unlock;
+}
+
+void Thread::blockSignalGlobally(SignalId signal) {
+    lock;
+    PCB::blockSignalGlobally(signal);
+    unlock;
+}
+
+void Thread::unblockSignal(SignalId signal) {
+    lock;
+    this->myPCB->unblockSignal(signal);
+    unlock;
+}
+
+void Thread::unblockSignalGlobally(SignalId signal) {
+    lock;
+    PCB::unblockSignalGlobally(signal);
+    unlock;
+}
+
+#endif
